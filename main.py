@@ -112,7 +112,7 @@ class MainWindow(QtWidgets.QMainWindow):
 		# Fill Night Time LCD
 		query = QtSql.QSqlQuery("select * from log")
 		record = query.record()
-		nameCol = record.indexOf("NightTime")  # index of the field "name"
+		nameCol = record.indexOf("NightTime")
 		totalraw = timedelta(00, 00)
 		while query.next():
 			tt = datetime.strptime(query.value(nameCol), "%H:%M")
@@ -197,7 +197,8 @@ class MainWindow(QtWidgets.QMainWindow):
 		coords_arrival = self.get_ap_coords(toap)
 		return self.calculate_night_time(coords_departure, coords_arrival, to, ldgt)
 
-	def calculate_night_time(self, coords_departure, coords_arrival, takeoff, landing):
+	@staticmethod
+	def calculate_night_time(coords_departure, coords_arrival, takeoff, landing):
 		if landing < takeoff:
 			landing += timedelta(days=1)
 
@@ -207,36 +208,12 @@ class MainWindow(QtWidgets.QMainWindow):
 		arrival_ap = ephem.Observer()
 		arrival_ap.lat = math.radians(coords_arrival[0])
 		arrival_ap.lon = math.radians(coords_arrival[1])
-
 		departure_ap.date = takeoff
 		arrival_ap.date = takeoff + timedelta(days=(departure_ap.lon - arrival_ap.lon)/math.pi/12.0)
-
-		#prev_sr_dep = departure_ap.previous_rising(ephem.Sun()).datetime()
-		#prev_ss_dep = departure_ap.previous_setting(ephem.Sun()).datetime()
 		next_sr_dep = departure_ap.next_rising(ephem.Sun()).datetime()
 		next_ss_dep = departure_ap.next_setting(ephem.Sun()).datetime()
-		#prev_sr_arr = arrival_ap.previous_rising(ephem.Sun()).datetime()
-		#prev_ss_arr = arrival_ap.previous_setting(ephem.Sun()).datetime()
 		next_sr_arr = arrival_ap.next_rising(ephem.Sun()).datetime()
 		next_ss_arr = arrival_ap.next_setting(ephem.Sun()).datetime()
-		# ugly hack
-		#if next_ss_arr < next_sr_arr:
-		#	arrival_ap.date = next_ss_arr + timedelta(seconds=1)
-		#	next_ss_arr = arrival_ap.next_setting(ephem.Sun()).datetime()
-
-
-		startinday = False
-		strt = 'At Nigt'
-		if next_sr_dep > next_ss_dep:
-			startinday = True
-			strt = 'At Day'
-
-		print('Take OFF', strt)
-		#print('Departure', '\n', prev_sr_dep, '\n', prev_ss_dep, '\n', next_sr_dep, '\n', next_ss_dep, '\n')
-		#print('Arrival', '\n', prev_sr_arr, '\n', prev_ss_arr, '\n', next_sr_arr, '\n', next_ss_arr, '\n')
-		print('Departure SR:', next_sr_dep, '\tSS:', next_ss_dep)
-		print('Arrival   SR:', next_sr_arr, '\tSS:', next_ss_arr)
-		print()
 
 		# TODO: move to func
 		with open("debug.csv", "wb") as f:
@@ -261,7 +238,6 @@ class MainWindow(QtWidgets.QMainWindow):
 			if plane.next_rising(s) < plane.next_setting(s):
 				nt += 1
 		nt = timedelta(hours=nt / 60.0)
-		print("NightTime_hard:", nt)
 		return nt
 
 		# coordsDep = {'longitude' : lonDep, 'latitude' : latDep}
@@ -280,59 +256,28 @@ class MainWindow(QtWidgets.QMainWindow):
 		# lineSS = LineString([(timeSSDep, 1), (timeSSArr, 0)])
 		# lineSRnextDay = LineString([(timeSRDep + 24, 1), (timeSRArr + 24, 0)])
 		# lineSSnextDay = LineString([(timeSSDep + 24, 1), (timeSSArr + 24, 0)])
-
 		# z1 = lineFlight.intersection(lineSR)
 		# z2 = lineFlight.intersection(lineSS)
 		# z3 = lineFlight.intersection(lineSRnextDay)
 		# z4 = lineFlight.intersection(lineSRnextDay)
-
 		# x1 = lineFlight.crosses(lineSR)
 		# x2 = lineFlight.crosses(lineSS)
 		# x3 = lineFlight.crosses(lineSRnextDay)
 		# x4 = lineFlight.crosses(lineSSnextDay)
 		# print('xross or no ', x1, x2, x3, x4)
 		# night_time = 0
-
 		# if depDecimal > timeSRDep:
 		#	night_time = 0 						# Takoff At Day, short flight
 		# night_time = arrDecimal - depDecimal	 # Take Off At Night, short flight
-		"""
-		if x1 == True:
-			if x2 == True:
-				if x3 == True:
-					if x4 == True:
-						night_time = arrDecimal - float(z4.x) + float(z3.x) - float(z2.x)
-					night_time = float(z3.x) - float(z2.x) + 
-				night_time = arrDecimal - float(z2.x)
-			night_time = float(z1.x) - depDecimal
-
-		if x1 and x2 and x3 and x4 == False:
-			if	depDecimal > timeSRDep:
-				night_time = 0 						# Takoff At Day, short flight
-			if depDecimal < timeSRDep:
-				night_time = arrDecimal - depDecimal	 # Take Off At Night, short flight
-		"""
-
-	# print('вылет ',depDecimal ,'\n', 'SRDep', timeSRDep,'\n', 'SSdep', timeSSDep,'\n', ' посадка ', arrDecimal,'\n', 'SRArr', timeSRArr,'\n', 'SSArr', timeSSArr,'\n', 'Flight', arrDecimal - depDecimal)
-	# print('Взлет', depDecimal, 'SRDep', timeSRDep, 'Flight', arrDecimal - depDecimal)
-	# print('Ночь = ', night_time)
-
 	# (y, cross0, x) = str(lineFlight.intersection(lineSR)).split(' ')
-	# print('test ', cross0, y, x)
-	# print('рассвет 1', cross0)
-	# print('закат 1', lineFlight.intersection(lineSS))
-	# print('рассвет 2', lineFlight.intersection(lineSRnextDay))
-	# print('закат 2', lineFlight.intersection(lineSSnextDay))
+
 
 	def newleg(self):
 		"""get date from calendar"""
 		addi = self.addlegwindow.addi
 		rawDate = addi.dateEdit.date()
-		nextdate = rawDate.addDays(1)
-		#		date = (rawDate.toPyDate(), nextdate.toPyDate())
 		date = rawDate.toPyDate()
 		print('посылаемая дата в Sun ', date)
-		# self.sun = Sun( (rawDate.year(), rawDate.month(), rawDate.day()) )
 
 		flightno = addi.lineEdit.text()  # flight nuber
 		acno = addi.comboBox.currentText()  # aircraft id
@@ -347,8 +292,7 @@ class MainWindow(QtWidgets.QMainWindow):
 		if rawOffblktime > rawOnblktime:  # Check next day
 			onblktime += timedelta(days=1)
 		blktime = onblktime - offblktime
-		# print (rawOffblktime.toPyTime())
-		# blktime = blktimee.total_seconds()//60
+
 
 		"""Flt time"""
 		rawDepFTime = addi.timeEdit_4.time()
@@ -365,7 +309,6 @@ class MainWindow(QtWidgets.QMainWindow):
 		night_time = self.calculate_night_time(coords_departure, coords_arrival, depFtime, arriveTime)
 
 		# Write Line to log.db
-		dte = date.strftime("%d\\%m\\%Y")
 		onbt = onblktime.strftime("%H:%M")
 		tot = depFtime.strftime("%H:%M")
 		lt = arriveTime.strftime("%H:%M")
