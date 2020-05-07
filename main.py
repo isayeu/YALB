@@ -24,7 +24,7 @@ class AddAcftWindow(QtWidgets.QDialog):
 	def setDatabase(self, db):
 		self.db = db
 
-	def newacft (self):
+	def newacft(self):
 		typ = self.acft.lineEdit.text()
 		acftid = self.acft.lineEdit_2.text()
 		query = QtSql.QSqlQuery()
@@ -45,6 +45,7 @@ class AddlegWindow(QtWidgets.QDialog):
 		self.addi.dateEdit.setDate(QtCore.QDate.currentDate())
 		self.addi.pushButton_2.clicked.connect(self.hide)
 		self.addi.pushButton_3.clicked.connect(self.hide)
+
 
 class MainWindow(QtWidgets.QMainWindow):
 	def __init__(self):
@@ -87,7 +88,7 @@ class MainWindow(QtWidgets.QMainWindow):
 		# Fill Flight Time LCD
 		query = QtSql.QSqlQuery("select * from log")
 		record = query.record()
-		nameCol = record.indexOf("FlightTime")  # index of the field "name"
+		nameCol = record.indexOf("FlightTime")
 		totalraw = timedelta(00, 00)
 		while query.next():
 			tt = datetime.strptime(query.value(nameCol), "%H:%M")
