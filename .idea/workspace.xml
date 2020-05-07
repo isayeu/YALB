@@ -7,6 +7,7 @@
     <list default="true" id="7aa65620-3f12-4ee2-be7b-a91f51537e6d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yalbform.py" beforeDir="false" afterPath="$PROJECT_DIR$/yalbform.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,6 +17,13 @@
   </component>
   <component name="FavoritesManager">
     <favorites_list name="yalb" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
@@ -54,7 +62,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.test">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="yalb" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -120,8 +128,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main" />
         <item itemvalue="Python.test" />
+        <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
   </component>
@@ -178,7 +186,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588873875284</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Clean Up">
+      <created>1588877783640</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1588877783640</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -212,6 +227,7 @@
     <MESSAGE value="ProjectDictionaryState" />
     <MESSAGE value="Fixed yalb ui" />
     <MESSAGE value="Fixed Night Time" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed Night Time" />
+    <MESSAGE value="Clean Up" />
+    <option name="LAST_COMMIT_MESSAGE" value="Clean Up" />
   </component>
 </project>

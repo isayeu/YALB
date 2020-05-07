@@ -210,17 +210,20 @@ class MainWindow(QtWidgets.QMainWindow):
 		arrival_ap.lon = math.radians(coords_arrival[1])
 		departure_ap.date = takeoff
 		arrival_ap.date = takeoff + timedelta(days=(departure_ap.lon - arrival_ap.lon)/math.pi/12.0)
-		next_sr_dep = departure_ap.next_rising(ephem.Sun()).datetime()
-		next_ss_dep = departure_ap.next_setting(ephem.Sun()).datetime()
-		next_sr_arr = arrival_ap.next_rising(ephem.Sun()).datetime()
-		next_ss_arr = arrival_ap.next_setting(ephem.Sun()).datetime()
+		try:
+			next_sr_dep = departure_ap.next_rising(ephem.Sun()).datetime()
+			next_ss_dep = departure_ap.next_setting(ephem.Sun()).datetime()
+			next_sr_arr = arrival_ap.next_rising(ephem.Sun()).datetime()
+			next_ss_arr = arrival_ap.next_setting(ephem.Sun()).datetime()
+		except (ephem.AlwaysUpError, ephem.NeverUpError):
+			pass
 
 		# TODO: move to func
-		with open("debug.csv", "wb") as f:
-			line = f"1,{takeoff},{next_sr_dep},{next_ss_dep},{next_sr_dep},{next_ss_dep}\n"
-			f.write(line.encode("utf-8"))
-			line = f"0,{landing},{next_sr_arr},{next_ss_arr},{next_sr_arr},{next_ss_arr}\n"
-			f.write(line.encode("utf-8"))
+		#with open("debug.csv", "wb") as f:
+		#	line = f"1,{takeoff},{next_sr_dep},{next_ss_dep},{next_sr_dep},{next_ss_dep}\n"
+		#	f.write(line.encode("utf-8"))
+		#	line = f"0,{landing},{next_sr_arr},{next_ss_arr},{next_sr_arr},{next_ss_arr}\n"
+		#	f.write(line.encode("utf-8"))
 
 		s = ephem.Sun()
 		plane = ephem.Observer()
@@ -235,8 +238,13 @@ class MainWindow(QtWidgets.QMainWindow):
 			plane.date = takeoff + dt * float(i + 0.5)
 			plane.lat = departure_ap.lat + dlat * float(i)
 			plane.lon = departure_ap.lon + dlon * float(i)
-			if plane.next_rising(s) < plane.next_setting(s):
+			try:
+				if plane.next_rising(s) < plane.next_setting(s):
+					nt += 1
+			except ephem.NeverUpError:
 				nt += 1
+			except ephem.AlwaysUpError:
+				pass
 		nt = timedelta(hours=nt / 60.0)
 		return nt
 

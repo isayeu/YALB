@@ -123,7 +123,7 @@ class Ui_MainWindow(object):
 		self.label_3.setFont(font)
 		self.label_3.setText(u"<html><head/><body><p>Night Time	</p></body></html>")
 		self.label_3.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-		self.gridLayout.addWidget(self.label_3, 4, 3, 1, 1, QtCore.Qt.AlignLeft)
+		self.gridLayout.addWidget(self.label_3, 4, 3, 2, 1, QtCore.Qt.AlignLeft)
 
 		self.label_2 = QtWidgets.QLabel(self.tab)
 		self.label_2.setObjectName(u"label_2")
