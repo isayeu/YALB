@@ -5,16 +5,23 @@
       <w>acftid</w>
       <w>acfts</w>
       <w>acftselect</w>
+      <w>acno</w>
       <w>addacftdialog</w>
       <w>addleg</w>
+      <w>blktime</w>
       <w>coords</w>
       <w>delac</w>
       <w>delrow</w>
+      <w>dest</w>
+      <w>flightno</w>
       <w>fromap</w>
       <w>ftime</w>
       <w>icao</w>
       <w>newacft</w>
       <w>newleg</w>
+      <w>nuber</w>
+      <w>offblktime</w>
+      <w>onblktime</w>
       <w>qsqlite</w>
       <w>recalc</w>
       <w>rowselect</w>

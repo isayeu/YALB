@@ -4,6 +4,8 @@ from datetime import datetime
 from datetime import timedelta
 
 from PyQt5 import QtCore, QtWidgets, QtSql
+from PyQt5.QtCore import QStringListModel
+from PyQt5.QtWidgets import QCompleter
 from shapely.geometry import LineString
 
 from addacft import Ui_Dialog2
@@ -73,8 +75,6 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.run()
 
 	def run(self):
-		t = datetime.utcnow()
-		print('Обновили Таблицы ', t)
 
 		# Fill Log Table
 		self.ui.model.clear()
@@ -136,6 +136,15 @@ class MainWindow(QtWidgets.QMainWindow):
 	# End Fill
 
 	def addLeg(self):
+		addi = self.addlegwindow.addi
+		fromap = addi.lineEdit_2
+		toap = addi.lineEdit_3
+		completer = QCompleter()
+		fromap.setCompleter(completer)
+		toap.setCompleter(completer)
+		model = QStringListModel()
+		completer.setModel(model)
+		self.complete_input_ap(model)
 		self.addlegwindow.show()
 
 	def addacftdialog(self):
@@ -176,7 +185,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 	def get_ap_coords(self, ap_icao):
 		coords = (None, None)
-		self.query.prepare("SELECT Latitude, Longitude FROM airports WHERE ICAO = '%s'" % ap_icao.upper())
+		self.query.prepare("SELECT Latitude, Longitude FROM airports WHERE ICAO = '%s' OR IATA = '%s'" % (ap_icao.upper(), ap_icao.upper()))
 		if not self.query.exec_():
 			QtWidgets.QMessageBox.warning(None, "Database Error", self.query.lastError().text())
 			return coords
@@ -275,18 +284,24 @@ class MainWindow(QtWidgets.QMainWindow):
 		# print('xross or no ', x1, x2, x3, x4)
 		# night_time = 0
 		# if depDecimal > timeSRDep:
-		#	night_time = 0 						# Takoff At Day, short flight
+		# night_time = 0 						# Takoff At Day, short flight
 		# night_time = arrDecimal - depDecimal	 # Take Off At Night, short flight
 	# (y, cross0, x) = str(lineFlight.intersection(lineSR)).split(' ')
 
+	def complete_input_ap(self, model):
+		query = QtSql.QSqlQuery("select ICAO, IATA from airports")
+		#record = query.record()
+		#nameCol = record.indexOf("ICAO")
+		apid = []
+		while query.next():
+			apid += [query.value(0)]
+			apid += [query.value(1)]
+		model.setStringList(apid)
 
 	def newleg(self):
 		"""get date from calendar"""
 		addi = self.addlegwindow.addi
 		rawDate = addi.dateEdit.date()
-		date = rawDate.toPyDate()
-		print('посылаемая дата в Sun ', date)
-
 		flightno = addi.lineEdit.text()  # flight nuber
 		acno = addi.comboBox.currentText()  # aircraft id
 		fromap = addi.lineEdit_2.text()  # departure airport ID
@@ -300,7 +315,6 @@ class MainWindow(QtWidgets.QMainWindow):
 		if rawOffblktime > rawOnblktime:  # Check next day
 			onblktime += timedelta(days=1)
 		blktime = onblktime - offblktime
-
 
 		"""Flt time"""
 		rawDepFTime = addi.timeEdit_4.time()
