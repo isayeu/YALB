@@ -6,7 +6,6 @@ from datetime import timedelta
 from PyQt5 import QtCore, QtWidgets, QtSql
 from shapely.geometry import LineString
 
-#from Sun import Sun
 from addacft import Ui_Dialog2
 from addleg import Ui_Dialog
 from yalbform import Ui_MainWindow
