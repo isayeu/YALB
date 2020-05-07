@@ -5,10 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7aa65620-3f12-4ee2-be7b-a91f51537e6d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/andrei.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/andrei.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/debug.csv" beforeDir="false" afterPath="$PROJECT_DIR$/debug.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/log.db" beforeDir="false" afterPath="$PROJECT_DIR$/log.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yalbform.py" beforeDir="false" afterPath="$PROJECT_DIR$/yalbform.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -166,7 +166,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588861652438</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Fixed yalb ui">
+      <created>1588870637314</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1588870637314</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -198,6 +205,18 @@
     <MESSAGE value="fix interval error NTime" />
     <MESSAGE value="recode night time calculation" />
     <MESSAGE value="ProjectDictionaryState" />
-    <option name="LAST_COMMIT_MESSAGE" value="ProjectDictionaryState" />
+    <MESSAGE value="Fixed yalb ui" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed yalb ui" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <line>326</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

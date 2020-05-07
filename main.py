@@ -360,7 +360,9 @@ class MainWindow(QtWidgets.QMainWindow):
 		fltTime = arriveTime - depFtime
 
 		# Night Flight Time
-		night_time = self.recalc()
+		coords_departure = self.get_ap_coords(fromap)
+		coords_arrival = self.get_ap_coords(toap)
+		night_time = self.calculate_night_time(coords_departure, coords_arrival, depFtime, arriveTime)
 
 		# Write Line to log.db
 		dte = date.strftime("%d\\%m\\%Y")
