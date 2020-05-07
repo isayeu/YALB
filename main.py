@@ -246,7 +246,7 @@ class MainWindow(QtWidgets.QMainWindow):
 		dt = timedelta(seconds=60)
 		nt = 0
 		for i in range(flight_time_minutes):
-			plane.date = to + dt * float(i)
+			plane.date = to + dt * float(i + 0.5)
 			plane.lat = departure_ap.lat + dlat * float(i)
 			plane.lon = departure_ap.lon + dlon * float(i)
 			if plane.next_rising(s) < plane.next_setting(s):
