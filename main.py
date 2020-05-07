@@ -174,19 +174,19 @@ class MainWindow(QtWidgets.QMainWindow):
 
 	def recalc(self):
 		if not self.selectedID:
-			return
+			return None
 		fromap, toap = self.rowselect(self.selectedID, "AirportDeparture", "AirportArrival")
 		date, depFtime, arriveTime = self.rowselect(self.selectedID, "Date", "TakeOff", "Landing")
 
 		to = datetime.fromisoformat(date + " " + depFtime)
 		ldgt = datetime.fromisoformat(date + " " + arriveTime)
-
-		if ldgt < to:
-			ldgt += timedelta(days=1)
-
-
 		coords_departure = self.get_ap_coords(fromap)
 		coords_arrival = self.get_ap_coords(toap)
+		return self.calculate_night_time(coords_departure, coords_arrival, to, ldgt)
+
+	def calculate_night_time(self, coords_departure, coords_arrival, takeoff, landing):
+		if landing < takeoff:
+			landing += timedelta(days=1)
 
 		departure_ap = ephem.Observer()
 		departure_ap.lat = math.radians(coords_departure[0])
@@ -195,12 +195,8 @@ class MainWindow(QtWidgets.QMainWindow):
 		arrival_ap.lat = math.radians(coords_arrival[0])
 		arrival_ap.lon = math.radians(coords_arrival[1])
 
-		departure_ap.date = to
-		arrival_ap.date = to + timedelta(days=(departure_ap.lon - arrival_ap.lon)/math.pi/12.0)
-		a = float(departure_ap.date)
-
-		print(a, ldgt)
-
+		departure_ap.date = takeoff
+		arrival_ap.date = takeoff + timedelta(days=(departure_ap.lon - arrival_ap.lon)/math.pi/12.0)
 
 		#prev_sr_dep = departure_ap.previous_rising(ephem.Sun()).datetime()
 		#prev_ss_dep = departure_ap.previous_setting(ephem.Sun()).datetime()
@@ -231,28 +227,29 @@ class MainWindow(QtWidgets.QMainWindow):
 
 		# TODO: move to func
 		with open("debug.csv", "wb") as f:
-			line = f"1,{to},{next_sr_dep},{next_ss_dep},{next_sr_dep},{next_ss_dep}\n"
+			line = f"1,{takeoff},{next_sr_dep},{next_ss_dep},{next_sr_dep},{next_ss_dep}\n"
 			f.write(line.encode("utf-8"))
-			line = f"0,{ldgt},{next_sr_arr},{next_ss_arr},{next_sr_arr},{next_ss_arr}\n"
+			line = f"0,{landing},{next_sr_arr},{next_ss_arr},{next_sr_arr},{next_ss_arr}\n"
 			f.write(line.encode("utf-8"))
 
 		s = ephem.Sun()
 		plane = ephem.Observer()
-		plane.date = to
-		flight_time_minutes = int((ldgt - to).total_seconds() // 60)
+		plane.date = takeoff
+		flight_time_minutes = int((landing - takeoff).total_seconds() // 60)
 		print("ldgt-to in minutes:", flight_time_minutes, "HH:MM :", timedelta(hours=flight_time_minutes/60.0))
 		dlat = (arrival_ap.lat - departure_ap.lat) / flight_time_minutes
 		dlon = (arrival_ap.lon - departure_ap.lon) / flight_time_minutes
 		dt = timedelta(seconds=60)
 		nt = 0
 		for i in range(flight_time_minutes):
-			plane.date = to + dt * float(i + 0.5)
+			plane.date = takeoff + dt * float(i + 0.5)
 			plane.lat = departure_ap.lat + dlat * float(i)
 			plane.lon = departure_ap.lon + dlon * float(i)
 			if plane.next_rising(s) < plane.next_setting(s):
 				nt += 1
-		nt /= 60.0
-		print("NightTime_hard:", nt, timedelta(hours=nt))
+		nt = timedelta(hours=nt / 60.0)
+		print("NightTime_hard:", nt)
+		return nt
 
 		# coordsDep = {'longitude' : lonDep, 'latitude' : latDep}
 		# coordsArr = {'longitude' : lonArr, 'latitude' : latArr}
@@ -352,6 +349,7 @@ class MainWindow(QtWidgets.QMainWindow):
 		fltTime = arriveTime - depFtime
 
 		# Night Flight Time
+		night_time = self.recalc()
 
 		# Write Line to log.db
 		dte = date.strftime("%d\\%m\\%Y")
@@ -373,7 +371,7 @@ class MainWindow(QtWidgets.QMainWindow):
 		query.bindValue(8, onbt)
 		query.bindValue(9, str(fltTime)[:-3])
 		query.bindValue(10, str(blktime)[:-3])
-		query.bindValue(11, 'Жопа Тут')
+		query.bindValue(11, str(night_time)[:-3])
 		if not query.exec_():
 			QtWidgets.QMessageBox.warning(None, "Database Error", query.lastError().text())
 			return
