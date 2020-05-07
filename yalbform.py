@@ -38,7 +38,7 @@ class Ui_MainWindow(object):
 
 		self.calendarWidget = QtWidgets.QCalendarWidget(self.tab)
 		self.calendarWidget.setObjectName("calendarWidget")
-		self.gridLayout.addWidget(self.calendarWidget, 0, 0, 5, 1, QtCore.Qt.AlignLeft)
+		self.gridLayout.addWidget(self.calendarWidget, 0, 0, 6, 1, QtCore.Qt.AlignLeft)
 		self.calendarWidget.setGridVisible(True)
 
 		self.ButtonAddAC = QtWidgets.QPushButton(self.tab)
@@ -62,7 +62,7 @@ class Ui_MainWindow(object):
 
 		self.tableViewAcft = QtWidgets.QTableView(self.tab)
 		self.tableViewAcft.setObjectName(u"tableViewAcft")
-		self.gridLayout.addWidget(self.tableViewAcft, 0, 2, 5, 1, QtCore.Qt.AlignLeft)
+		self.gridLayout.addWidget(self.tableViewAcft, 0, 2, 6, 1, QtCore.Qt.AlignLeft)
 		self.tableViewAcft.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
 		self.tableViewAcft.horizontalHeader().setStretchLastSection(False)
 
@@ -75,7 +75,7 @@ class Ui_MainWindow(object):
 		self.tableLog = QtWidgets.QTableView(self.tab)
 		self.tableLog.setModel(self.model)
 		self.tableLog.setObjectName("tableLog")
-		self.gridLayout.addWidget(self.tableLog, 5, 0, 1, 5)
+		self.gridLayout.addWidget(self.tableLog, 6, 0, 1, 5)
 		self.tableLog.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
 		self.tableLog.horizontalHeader().setStretchLastSection(False)
 		self.tableLog.setSortingEnabled(True)
@@ -111,7 +111,7 @@ class Ui_MainWindow(object):
 		self.lcdNumberNight.setObjectName(u"lcdNumberNight")
 		self.lcdNumberNight.setMinimumSize(QtCore.QSize(300, 0))
 		self.lcdNumberNight.setDigitCount(8)
-		self.gridLayout.addWidget(self.lcdNumberNight, 4, 4, 1, 1, QtCore.Qt.AlignLeft)
+		self.gridLayout.addWidget(self.lcdNumberNight, 4, 4, 2, 1, QtCore.Qt.AlignLeft)
 
 		self.label_3 = QtWidgets.QLabel(self.tab)
 		self.label_3.setObjectName(u"label_3")

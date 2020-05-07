@@ -109,6 +109,18 @@ class MainWindow(QtWidgets.QMainWindow):
 			total = '%02d:%02d' % (totalraw.days * 24 + totalraw.seconds // 3600, (totalraw.seconds % 3600) // 60)
 			self.ui.lcdNumberBLK.display(str(total))
 
+		# Fill Night Time LCD
+		query = QtSql.QSqlQuery("select * from log")
+		record = query.record()
+		nameCol = record.indexOf("NightTime")  # index of the field "name"
+		totalraw = timedelta(00, 00)
+		while query.next():
+			tt = datetime.strptime(query.value(nameCol), "%H:%M")
+			delta = timedelta(hours=tt.hour, minutes=tt.minute)
+			totalraw += delta
+			total = '%02d:%02d' % (totalraw.days * 24 + totalraw.seconds // 3600, (totalraw.seconds % 3600) // 60)
+			self.ui.lcdNumberNight.display(str(total))
+
 		# Fill Aircraft Table
 		model = QtSql.QSqlQueryModel()
 		model.setQuery("SELECT * FROM acfts")
@@ -329,8 +341,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 		"""blk time"""
 		rawOffblktime = addi.timeEdit.time()
-		offblktime = datetime(rawDate.year(), rawDate.month(), rawDate.day(), rawOffblktime.hour(),
-							  rawOffblktime.minute())
+		offblktime = datetime(rawDate.year(), rawDate.month(), rawDate.day(), rawOffblktime.hour(), rawOffblktime.minute())
 		rawOnblktime = addi.timeEdit_2.time()
 		onblktime = datetime(rawDate.year(), rawDate.month(), rawDate.day(), rawOnblktime.hour(), rawOnblktime.minute())
 		if rawOffblktime > rawOnblktime:  # Check next day
@@ -343,8 +354,7 @@ class MainWindow(QtWidgets.QMainWindow):
 		rawDepFTime = addi.timeEdit_4.time()
 		depFtime = datetime(rawDate.year(), rawDate.month(), rawDate.day(), rawDepFTime.hour(), rawDepFTime.minute())
 		rawArriveTime = addi.timeEdit_3.time()
-		arriveTime = datetime(rawDate.year(), rawDate.month(), rawDate.day(), rawArriveTime.hour(),
-							  rawArriveTime.minute())
+		arriveTime = datetime(rawDate.year(), rawDate.month(), rawDate.day(), rawArriveTime.hour(), rawArriveTime.minute())
 		if rawArriveTime < rawDepFTime:  # Check next day
 			arriveTime += timedelta(days=1)
 		fltTime = arriveTime - depFtime
