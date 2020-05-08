@@ -1,18 +1,16 @@
 #!/usr/bin/env python
+import math
 import sys
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta
 
+import ephem
 from PyQt5 import QtCore, QtWidgets, QtSql
 from PyQt5.QtCore import QStringListModel
 from PyQt5.QtWidgets import QCompleter
-from shapely.geometry import LineString
 
 from addacft import Ui_Dialog2
 from addleg import Ui_Dialog
 from yalbform import Ui_MainWindow
-import ephem
-import math
 
 
 class AddAcftWindow(QtWidgets.QDialog):
@@ -79,7 +77,7 @@ class MainWindow(QtWidgets.QMainWindow):
 		# Fill Log Table
 		self.ui.model.clear()
 		model = QtSql.QSqlQueryModel()
-		model.setQuery("SELECT * FROM log")
+		model.setQuery("SELECT * FROM log ORDER BY ID DESC")
 		proxy = QtCore.QSortFilterProxyModel()
 		proxy.setSourceModel(model)
 		self.ui.tableLog.setModel(proxy)
@@ -140,6 +138,7 @@ class MainWindow(QtWidgets.QMainWindow):
 		fromap = addi.lineEdit_2
 		toap = addi.lineEdit_3
 		completer = QCompleter()
+		completer.setCaseSensitivity(QtCore.Qt.CaseInsensitive)
 		fromap.setCompleter(completer)
 		toap.setCompleter(completer)
 		model = QStringListModel()
