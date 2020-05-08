@@ -3,9 +3,7 @@ WIP!!!
 ----------------------
 Deps:
 ------
-Python3
-PyQT5
-ephem
+Python3, PyQT5,ephem
 
 log.db for test!
 
