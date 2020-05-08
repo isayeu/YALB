@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import math
 import sys
 from datetime import datetime, timedelta
@@ -62,7 +62,7 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.ui.tableViewAcft.clicked.connect(self.acftselect)
 		self.ui.pushButtonDelLeg.clicked.connect(self.delrow)
 		self.ui.pushButtonDelAC.clicked.connect(self.delac)
-		self.ui.buttonRecalc.clicked.connect(self.recalc)
+		#self.ui.buttonRecalc.clicked.connect(self.recalc)
 		self.db = QtSql.QSqlDatabase.addDatabase("QSQLITE")
 		self.db.setDatabaseName("log.db")
 		self.db.open()
