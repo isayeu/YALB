@@ -64,7 +64,7 @@ class Ui_MainWindow(object):
 		self.gridLayout.addWidget(self.tableViewAcft, 0, 2, 6, 1, QtCore.Qt.AlignLeft)
 		self.tableViewAcft.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
 		self.tableViewAcft.horizontalHeader().setStretchLastSection(False)
-		self.tableViewAcft.setMaximumSize(QSize(210, 16777215))
+		self.tableViewAcft.setMaximumSize(QSize(140, 16777215))
 
 		self.model = QtGui.QStandardItemModel(self.tab)
 

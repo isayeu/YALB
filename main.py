@@ -124,6 +124,8 @@ class MainWindow(QtWidgets.QMainWindow):
 		model.setQuery("SELECT * FROM acfts")
 		self.ui.tableViewAcft.setModel(model)
 		self.ui.tableViewAcft.resizeColumnsToContents()
+		self.ui.tableViewAcft.setColumnHidden(0, True)
+		self.ui.tableViewAcft.verticalHeader().setVisible(False)
 
 		# Fill Aircraft Combobox
 		model = QtSql.QSqlTableModel(self)
