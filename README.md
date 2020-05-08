@@ -7,7 +7,7 @@ Python3
 
 libs: PyQt5, ephem, math, datetime.
 
-log.db for test!
+log.db for test included
 
 
 RUN
