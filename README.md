@@ -1,5 +1,5 @@
 # Yet Another LogBook
-Not For Use!!! WIP!!!
+WIP!!!
 ----------------------
 log.db for test!
 
