@@ -1,7 +1,19 @@
 # Yet Another LogBook
 WIP!!!
 ----------------------
-log.db for test!
+Deps:
+------
+Python3
+
+libs: PyQt5, ephem, math, datetime.
+
+log.db for test included
+
+
+RUN
+---
+python main.py
+
 
 # TODO
 
