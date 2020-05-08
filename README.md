@@ -3,7 +3,9 @@ WIP!!!
 ----------------------
 Deps:
 ------
-Python3, PyQT5, ephem
+Python3
+
+libs: PyQt5, ephem, math, datetime.
 
 log.db for test!
 
